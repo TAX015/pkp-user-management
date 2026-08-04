@@ -1,0 +1,50 @@
+{
+  "RSpec": {
+    "coverage": {
+      "/home/tax015/projects/pkp-user-management/app/controllers/application_controller.rb": {
+        "lines": [
+          0,
+          null,
+          0,
+          null,
+          null,
+          0,
+          null
+        ],
+        "branches": {},
+        "methods": {}
+      },
+      "/home/tax015/projects/pkp-user-management/app/helpers/application_helper.rb": {
+        "lines": [
+          0,
+          null
+        ],
+        "branches": {},
+        "methods": {}
+      },
+      "/home/tax015/projects/pkp-user-management/app/jobs/application_job.rb": {
+        "lines": [
+          0,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "branches": {},
+        "methods": {}
+      },
+      "/home/tax015/projects/pkp-user-management/app/models/application_record.rb": {
+        "lines": [
+          0,
+          0,
+          null
+        ],
+        "branches": {},
+        "methods": {}
+      }
+    },
+    "timestamp": 1785853468
+  }
+}

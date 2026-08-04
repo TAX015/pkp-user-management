@@ -44,6 +44,8 @@ gem "image_processing", "~> 1.2"
 
 gem "jwt", "~> 3.2"
 
+gem "acts_as_paranoid", "~> 0.11.0"
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
@@ -56,6 +58,10 @@ group :development, :test do
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
+
+  gem "rspec-rails", "~> 8.0"
+  gem "faker", "~> 3.8"
+  gem "factory_bot_rails", "~> 6.5"
 end
 
 group :development do
@@ -67,4 +73,6 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
+  gem "shoulda-matchers", "~> 8.0"
+  gem "simplecov", "~> 1.0"
 end
