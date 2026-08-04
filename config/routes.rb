@@ -12,8 +12,18 @@
 #                                          PATCH  /users/:id(.:format)                                                                              users#update
 #                                          PUT    /users/:id(.:format)                                                                              users#update
 #                                          DELETE /users/:id(.:format)                                                                              users#destroy
-#                       rails_health_check GET    /up(.:format)                                                                                     rails/health#show
 #                                     root GET    /                                                                                                 users#index
+#                          api_v1_register POST   /api/v1/register(.:format)                                                                        api/v1/authentication#register
+#                             api_v1_login POST   /api/v1/login(.:format)                                                                           api/v1/authentication#login
+#                      api_v1_current_user GET    /api/v1/current_user(.:format)                                                                    api/v1/authentication#current_user
+#                             api_v1_users GET    /api/v1/users(.:format)                                                                           api/v1/users#index
+#                                          POST   /api/v1/users(.:format)                                                                           api/v1/users#create
+#                          new_api_v1_user GET    /api/v1/users/new(.:format)                                                                       api/v1/users#new
+#                         edit_api_v1_user GET    /api/v1/users/:id/edit(.:format)                                                                  api/v1/users#edit
+#                              api_v1_user GET    /api/v1/users/:id(.:format)                                                                       api/v1/users#show
+#                                          PATCH  /api/v1/users/:id(.:format)                                                                       api/v1/users#update
+#                                          PUT    /api/v1/users/:id(.:format)                                                                       api/v1/users#update
+#                                          DELETE /api/v1/users/:id(.:format)                                                                       api/v1/users#destroy
 #         turbo_recede_historical_location GET    /recede_historical_location(.:format)                                                             turbo/native/navigation#recede
 #         turbo_resume_historical_location GET    /resume_historical_location(.:format)                                                             turbo/native/navigation#resume
 #        turbo_refresh_historical_location GET    /refresh_historical_location(.:format)                                                            turbo/native/navigation#refresh
@@ -52,7 +62,7 @@ Rails.application.routes.draw do
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.
-  get "up" => "rails/health#show", as: :rails_health_check
+  # get "up" => "rails/health#show", as: :rails_health_check
 
   # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
@@ -60,4 +70,15 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   root "users#index"
+
+  # API Endpoints
+  namespace :api do
+    namespace :v1 do
+      post "/register", to: "authentication#register"
+      post "/login",    to: "authentication#login"
+      get "/current_user", to: "authentication#current_user"
+
+      resources :users
+    end
+  end
 end
