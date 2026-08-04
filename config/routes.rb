@@ -12,6 +12,8 @@
 #                                          PATCH  /users/:id(.:format)                                                                              users#update
 #                                          PUT    /users/:id(.:format)                                                                              users#update
 #                                          DELETE /users/:id(.:format)                                                                              users#destroy
+#                                   signup GET    /signup(.:format)                                                                                 users#new
+#                                          POST   /signup(.:format)                                                                                 users#create
 #                                     root GET    /                                                                                                 users#index
 #                          api_v1_register POST   /api/v1/register(.:format)                                                                        api/v1/authentication#register
 #                             api_v1_login POST   /api/v1/login(.:format)                                                                           api/v1/authentication#login
@@ -58,6 +60,10 @@ Rails.application.routes.draw do
   delete "/logout", to: "sessions#destroy"
 
   resources :users
+
+  get  "/signup", to: "users#new"
+  post "/signup", to: "users#create"
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

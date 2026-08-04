@@ -21,14 +21,28 @@
     <%= f.text_field :name, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": user.errors[:name].none?, "border-red-400 focus:outline-red-600": user.errors[:name].any?}] %>
   </div>
 
-  <div class="my-5">
-    <%= f.label :password %>
-    <%= f.password_field :password, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": user.errors[:password].none?, "border-red-400 focus:outline-red-600": user.errors[:password].any?}] %>
-  </div>
+  <div data-controller="toggle-password" class="my-5">
+    <!-- Show Checkbox Only When Editing -->
+    <% if user.persisted? %>
+      <div class="flex items-center mb-4">
+        <%= check_box_tag :change_password, "1", user.errors[:password].any? || user.errors[:password_confirmation].any?, 
+              data: { toggle_password_target: "checkbox", action: "change->toggle-password#toggle" }, 
+              class: "h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500 cursor-pointer" %>
+        <%= label_tag :change_password, "Change Password", class: "ml-2 text-sm font-medium text-gray-700 cursor-pointer" %>
+      </div>
+    <% end %>
 
-  <div class="my-5">
-    <%= f.label :password_confirmation %>
-    <%= f.password_field :password_confirmation, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": user.errors[:password_confirmation].none?, "border-red-400 focus:outline-red-600": user.errors[:password_confirmation].any?}] %>
+    <div data-toggle-password-target="fields" class="<%= 'hidden' if user.persisted? && user.errors[:password].none? && user.errors[:password_confirmation].none? %>">
+      <div class="mb-5">
+        <%= f.label :password %>
+        <%= f.password_field :password, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": user.errors[:password].none?, "border-red-400 focus:outline-red-600": user.errors[:password].any?}] %>
+      </div>
+
+      <div class="mb-5">
+        <%= f.label :password_confirmation %>
+        <%= f.password_field :password_confirmation, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": user.errors[:password_confirmation].none?, "border-red-400 focus:outline-red-600": user.errors[:password_confirmation].any?}] %>
+      </div>
+    </div>
   </div>
 
   <div class="inline">
