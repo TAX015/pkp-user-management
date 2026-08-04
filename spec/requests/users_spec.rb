@@ -12,120 +12,187 @@ require 'rails_helper'
 # of tools you can use to make these specs even more expressive, but we're
 # sticking to rails and rspec-rails APIs to keep things simple and stable.
 
-RSpec.describe "/users", type: :request do
-  
-  # This should return the minimal set of attributes required to create a valid
-  # User. As you add validations to User, be sure to
-  # adjust the attributes here as well.
-  let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
-  }
+RSpec.describe "Users", type: :request do
+  let!(:current_user) { create(:user) }
+  let!(:other_user) { create(:user) }
 
-  let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
-  }
-
-  describe "GET /index" do
-    it "renders a successful response" do
-      User.create! valid_attributes
-      get users_url
-      expect(response).to be_successful
-    end
+  def log_in(user)
+    post login_path, params: { email: user.email, password: "P4ssword!" }
   end
 
-  describe "GET /show" do
-    it "renders a successful response" do
-      user = User.create! valid_attributes
-      get user_url(user)
-      expect(response).to be_successful
-    end
-  end
+  describe "Unauthenticated Access" do
+    context "when accessing protected endpoints" do
+      it "redirects GET /users to login page" do
+        get users_path
+        expect(response).to redirect_to(login_path)
+      end
 
-  describe "GET /new" do
-    it "renders a successful response" do
-      get new_user_url
-      expect(response).to be_successful
-    end
-  end
+      it "redirects GET /users/:id to login page" do
+        get user_path(other_user)
+        expect(response).to redirect_to(login_path)
+      end
 
-  describe "GET /edit" do
-    it "renders a successful response" do
-      user = User.create! valid_attributes
-      get edit_user_url(user)
-      expect(response).to be_successful
-    end
-  end
+      it "redirects GET /users/:id/edit to login page" do
+        get edit_user_path(other_user)
+        expect(response).to redirect_to(login_path)
+      end
 
-  describe "POST /create" do
-    context "with valid parameters" do
-      it "creates a new User" do
+      it "redirects PATCH /users/:id to login page" do
+        patch user_path(other_user), params: { user: { name: "Updated Name" } }
+        expect(response).to redirect_to(login_path)
+      end
+
+      it "redirects DELETE /users/:id to login page" do
+        delete user_path(other_user)
+        expect(response).to redirect_to(login_path)
+      end
+    end
+
+    context "when accessing public endpoints" do
+      it "allows GET /users/new" do
+        get new_user_path
+        expect(response).to have_http_status(:ok)
+      end
+
+      it "creates a new account and logs in automatically" do
+        user_attributes = attributes_for(:user)
+
         expect {
-          post users_url, params: { user: valid_attributes }
+          post users_path, params: { user: user_attributes }
         }.to change(User, :count).by(1)
+
+        expect(response).to redirect_to(users_path)
+        expect(flash[:notice]).to eq("Welcome! Account created successfully.")
+        expect(session[:user_id]).to eq(User.last.id)
       end
 
-      it "redirects to the created user" do
-        post users_url, params: { user: valid_attributes }
-        expect(response).to redirect_to(user_url(User.last))
-      end
-    end
-
-    context "with invalid parameters" do
-      it "does not create a new User" do
+      it "renders :new with 422 status on validation failure" do
         expect {
-          post users_url, params: { user: invalid_attributes }
-        }.to change(User, :count).by(0)
-      end
+          post users_path, params: { user: { email: "invalid", name: "" } }
+        }.not_to change(User, :count)
 
-      it "renders a response with 422 status (i.e. to display the 'new' template)" do
-        post users_url, params: { user: invalid_attributes }
         expect(response).to have_http_status(:unprocessable_content)
+        expect(response.body).to include("prohibited this user from being saved")
       end
     end
   end
 
-  describe "PATCH /update" do
-    context "with valid parameters" do
-      let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
-      }
+  describe "Authenticated Access" do
+    before { log_in(current_user) }
 
-      it "updates the requested user" do
-        user = User.create! valid_attributes
-        patch user_url(user), params: { user: new_attributes }
-        user.reload
-        skip("Add assertions for updated state")
-      end
-
-      it "redirects to the user" do
-        user = User.create! valid_attributes
-        patch user_url(user), params: { user: new_attributes }
-        user.reload
-        expect(response).to redirect_to(user_url(user))
+    describe "GET /users" do
+      it "renders the index page successfully" do
+        get users_path
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include(current_user.name)
+        expect(response.body).to include(other_user.name)
       end
     end
 
-    context "with invalid parameters" do
-      it "renders a response with 422 status (i.e. to display the 'edit' template)" do
-        user = User.create! valid_attributes
-        patch user_url(user), params: { user: invalid_attributes }
-        expect(response).to have_http_status(:unprocessable_content)
+    describe "GET /users/:id" do
+      it "renders the show page" do
+        get user_path(other_user)
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include(other_user.name)
       end
     end
-  end
 
-  describe "DELETE /destroy" do
-    it "destroys the requested user" do
-      user = User.create! valid_attributes
-      expect {
-        delete user_url(user)
-      }.to change(User, :count).by(-1)
+    describe "GET /users/new" do
+      it "renders the new user page" do
+        get new_user_path
+        expect(response).to have_http_status(:ok)
+      end
     end
 
-    it "redirects to the users list" do
-      user = User.create! valid_attributes
-      delete user_url(user)
-      expect(response).to redirect_to(users_url)
+    describe "POST /users" do
+      it "creates user and does NOT switch session user when logged in" do
+        new_user_attrs = attributes_for(:user)
+
+        expect {
+          post users_path, params: { user: new_user_attrs }
+        }.to change(User, :count).by(1)
+
+        created_user = User.last
+        expect(response).to redirect_to(users_path)
+        expect(flash[:notice]).to eq("User #{created_user.name} was successfully created.")
+        expect(session[:user_id]).to eq(current_user.id) # Maintains current logged-in identity
+      end
+    end
+
+    describe "GET /users/:id/edit" do
+      it "renders the edit page" do
+        get edit_user_path(other_user)
+        expect(response).to have_http_status(:ok)
+      end
+    end
+
+    describe "PATCH /users/:id" do
+      context "with valid parameters" do
+        it "updates user details without changing password if password is left blank" do
+          old_password_digest = other_user.password_digest
+
+          patch user_path(other_user), params: {
+            user: {
+              name: "New Name",
+              email: "newemail@example.com",
+              password: "",
+              password_confirmation: ""
+            }
+          }
+
+          other_user.reload
+          expect(response).to redirect_to(user_path(other_user))
+          expect(flash[:notice]).to eq("User was successfully updated.")
+          expect(other_user.name).to eq("New Name")
+          expect(other_user.email).to eq("newemail@example.com")
+          expect(other_user.password_digest).to eq(old_password_digest) # Password remains unchanged
+        end
+
+        it "updates password when new valid password is provided" do
+          old_password_digest = other_user.password_digest
+
+          patch user_path(other_user), params: {
+            user: {
+              password: "N3w_P4ssword!",
+              password_confirmation: "N3w_P4ssword!"
+            }
+          }
+
+          other_user.reload
+          expect(response).to redirect_to(user_path(other_user))
+          expect(other_user.password_digest).not_to eq(old_password_digest)
+        end
+      end
+
+      context "with invalid parameters" do
+        it "renders :edit with 422 status" do
+          patch user_path(other_user), params: { user: { email: "invalid-email" } }
+
+          expect(response).to have_http_status(:unprocessable_content)
+          expect(other_user.reload.email).not_to eq("invalid-email")
+        end
+      end
+    end
+
+    describe "DELETE /users/:id" do
+      it "soft deletes another user" do
+        expect {
+          delete user_path(other_user)
+        }.to change(User, :count).by(-1)
+
+        expect(response).to redirect_to(users_path)
+        expect(flash[:notice]).to eq("User was successfully destroyed.")
+        expect(User.with_deleted.find_by(id: other_user.id)).not_to be_nil
+      end
+
+      it "prevents deleting your own account" do
+        expect {
+          delete user_path(current_user)
+        }.not_to change(User, :count)
+
+        expect(response).to redirect_to(users_path)
+        expect(flash[:alert]).to eq("You cannot delete your own account.")
+      end
     end
   end
 end

@@ -17,9 +17,13 @@
 #
 FactoryBot.define do
   factory :user do
-    email { "MyString" }
-    name { "MyString" }
-    password_digest { "MyString" }
-    deleted_at { "2026-08-04 21:45:30" }
+    email { "#{Faker::Internet.unique.email}" }
+    name { "Rahmad Riyadi" }
+    password { "P4ssword!" }
+    password_confirmation { "P4ssword!" }
+
+    trait :deleted do
+      deleted_at { Time.current }
+    end
   end
 end
