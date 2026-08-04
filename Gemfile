@@ -46,6 +46,8 @@ gem "jwt", "~> 3.2"
 
 gem "acts_as_paranoid", "~> 0.11.0"
 
+gem "annotaterb", "~> 4.24"
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"

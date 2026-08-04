@@ -5,9 +5,9 @@ window.SIMPLECOV_DATA = {
     "simplecov_version": "1.0.3",
     "command_name": "RSpec",
     "project_name": "Pkp-user-management",
-    "timestamp": "2026-08-04T21:24:28.626+07:00",
+    "timestamp": "2026-08-04T21:45:31.060+07:00",
     "root": "/home/tax015/projects/pkp-user-management",
-    "commit": "3bddd260eede917c125e58ea08570a8a780ccb7f",
+    "commit": "65a27ace77104190d9333ddbd054f55ee9b18f43",
     "primary_coverage": "line",
     "line_coverage": true,
     "branch_coverage": false,
@@ -16,9 +16,9 @@ window.SIMPLECOV_DATA = {
   "total": {
     "lines": {
       "covered": 0,
-      "missed": 7,
-      "omitted": 12,
-      "total": 7,
+      "missed": 42,
+      "omitted": 51,
+      "total": 42,
       "percent": 0.0,
       "strength": 0.0
     }
@@ -49,9 +49,175 @@ window.SIMPLECOV_DATA = {
       "omitted_lines": 4,
       "total_lines": 3
     },
+    "app/controllers/users_controller.rb": {
+      "source": [
+        "class UsersController < ApplicationController",
+        "  before_action :set_user, only: %i[ show edit update destroy ]",
+        "",
+        "  # GET /users or /users.json",
+        "  def index",
+        "    @users = User.all",
+        "  end",
+        "",
+        "  # GET /users/1 or /users/1.json",
+        "  def show",
+        "  end",
+        "",
+        "  # GET /users/new",
+        "  def new",
+        "    @user = User.new",
+        "  end",
+        "",
+        "  # GET /users/1/edit",
+        "  def edit",
+        "  end",
+        "",
+        "  # POST /users or /users.json",
+        "  def create",
+        "    @user = User.new(user_params)",
+        "",
+        "    respond_to do |format|",
+        "      if @user.save",
+        "        format.html { redirect_to @user, notice: \"User was successfully created.\" }",
+        "        format.json { render :show, status: :created, location: @user }",
+        "      else",
+        "        format.html { render :new, status: :unprocessable_content }",
+        "        format.json { render json: @user.errors, status: :unprocessable_content }",
+        "      end",
+        "    end",
+        "  end",
+        "",
+        "  # PATCH/PUT /users/1 or /users/1.json",
+        "  def update",
+        "    respond_to do |format|",
+        "      if @user.update(user_params)",
+        "        format.html { redirect_to @user, notice: \"User was successfully updated.\", status: :see_other }",
+        "        format.json { render :show, status: :ok, location: @user }",
+        "      else",
+        "        format.html { render :edit, status: :unprocessable_content }",
+        "        format.json { render json: @user.errors, status: :unprocessable_content }",
+        "      end",
+        "    end",
+        "  end",
+        "",
+        "  # DELETE /users/1 or /users/1.json",
+        "  def destroy",
+        "    @user.destroy!",
+        "",
+        "    respond_to do |format|",
+        "      format.html { redirect_to users_path, notice: \"User was successfully destroyed.\", status: :see_other }",
+        "      format.json { head :no_content }",
+        "    end",
+        "  end",
+        "",
+        "  private",
+        "    # Use callbacks to share common setup or constraints between actions.",
+        "    def set_user",
+        "      @user = User.find(params.expect(:id))",
+        "    end",
+        "",
+        "    # Only allow a list of trusted parameters through.",
+        "    def user_params",
+        "      params.expect(user: [ :email, :name, :password_digest, :deleted_at ])",
+        "    end",
+        "end"
+      ],
+      "lines": [
+        0,
+        0,
+        null,
+        null,
+        0,
+        0,
+        null,
+        null,
+        null,
+        0,
+        null,
+        null,
+        null,
+        0,
+        0,
+        null,
+        null,
+        null,
+        0,
+        null,
+        null,
+        null,
+        0,
+        0,
+        null,
+        0,
+        0,
+        0,
+        0,
+        null,
+        0,
+        0,
+        null,
+        null,
+        null,
+        null,
+        null,
+        0,
+        0,
+        0,
+        0,
+        0,
+        null,
+        0,
+        0,
+        null,
+        null,
+        null,
+        null,
+        null,
+        0,
+        0,
+        null,
+        0,
+        0,
+        0,
+        null,
+        null,
+        null,
+        0,
+        null,
+        0,
+        0,
+        null,
+        null,
+        null,
+        0,
+        0,
+        null,
+        null
+      ],
+      "lines_covered_percent": 0.0,
+      "covered_lines": 0,
+      "missed_lines": 33,
+      "omitted_lines": 37,
+      "total_lines": 33
+    },
     "app/helpers/application_helper.rb": {
       "source": [
         "module ApplicationHelper",
+        "end"
+      ],
+      "lines": [
+        0,
+        null
+      ],
+      "lines_covered_percent": 0.0,
+      "covered_lines": 0,
+      "missed_lines": 1,
+      "omitted_lines": 1,
+      "total_lines": 1
+    },
+    "app/helpers/users_helper.rb": {
+      "source": [
+        "module UsersHelper",
         "end"
       ],
       "lines": [
@@ -105,20 +271,36 @@ window.SIMPLECOV_DATA = {
       "missed_lines": 2,
       "omitted_lines": 1,
       "total_lines": 2
+    },
+    "app/models/user.rb": {
+      "source": [
+        "class User < ApplicationRecord",
+        "end"
+      ],
+      "lines": [
+        0,
+        null
+      ],
+      "lines_covered_percent": 0.0,
+      "covered_lines": 0,
+      "missed_lines": 1,
+      "omitted_lines": 1,
+      "total_lines": 1
     }
   },
   "groups": {
     "Controllers": {
       "lines": {
         "covered": 0,
-        "missed": 3,
-        "omitted": 4,
-        "total": 3,
+        "missed": 36,
+        "omitted": 41,
+        "total": 36,
         "percent": 0.0,
         "strength": 0.0
       },
       "files": [
-        "app/controllers/application_controller.rb"
+        "app/controllers/application_controller.rb",
+        "app/controllers/users_controller.rb"
       ]
     },
     "Channels": {
@@ -135,14 +317,15 @@ window.SIMPLECOV_DATA = {
     "Models": {
       "lines": {
         "covered": 0,
-        "missed": 2,
-        "omitted": 1,
-        "total": 2,
+        "missed": 3,
+        "omitted": 2,
+        "total": 3,
         "percent": 0.0,
         "strength": 0.0
       },
       "files": [
-        "app/models/application_record.rb"
+        "app/models/application_record.rb",
+        "app/models/user.rb"
       ]
     },
     "Mailers": {
@@ -159,14 +342,15 @@ window.SIMPLECOV_DATA = {
     "Helpers": {
       "lines": {
         "covered": 0,
-        "missed": 1,
-        "omitted": 1,
-        "total": 1,
+        "missed": 2,
+        "omitted": 2,
+        "total": 2,
         "percent": 0.0,
         "strength": 0.0
       },
       "files": [
-        "app/helpers/application_helper.rb"
+        "app/helpers/application_helper.rb",
+        "app/helpers/users_helper.rb"
       ]
     },
     "Jobs": {

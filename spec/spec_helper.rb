@@ -15,8 +15,8 @@
 # See https://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 require "simplecov"
 SimpleCov.start "rails" do
-  add_filter "/app/channels/"
-  add_filter "/app/mailers/"
+  skip "/app/channels/"
+  skip "/app/mailers/"
 end
 
 RSpec.configure do |config|

@@ -14,7 +14,110 @@
         "branches": {},
         "methods": {}
       },
+      "/home/tax015/projects/pkp-user-management/app/controllers/users_controller.rb": {
+        "lines": [
+          0,
+          0,
+          null,
+          null,
+          0,
+          0,
+          null,
+          null,
+          null,
+          0,
+          null,
+          null,
+          null,
+          0,
+          0,
+          null,
+          null,
+          null,
+          0,
+          null,
+          null,
+          null,
+          0,
+          0,
+          null,
+          0,
+          0,
+          0,
+          0,
+          null,
+          0,
+          0,
+          null,
+          null,
+          null,
+          null,
+          null,
+          0,
+          0,
+          0,
+          0,
+          0,
+          null,
+          0,
+          0,
+          null,
+          null,
+          null,
+          null,
+          null,
+          0,
+          0,
+          null,
+          0,
+          0,
+          0,
+          null,
+          null,
+          null,
+          0,
+          null,
+          0,
+          0,
+          null,
+          null,
+          null,
+          0,
+          0,
+          null,
+          null
+        ],
+        "branches": {
+          "[:if, 0, 27, 6, 33, 9]": {
+            "[:then, 1, 28, 8, 29, 71]": 0,
+            "[:else, 2, 31, 8, 32, 81]": 0
+          },
+          "[:if, 3, 40, 6, 46, 9]": {
+            "[:then, 4, 41, 8, 42, 66]": 0,
+            "[:else, 5, 44, 8, 45, 81]": 0
+          }
+        },
+        "methods": {
+          "[\"UsersController\", :index, 5, 2, 7, 5]": 0,
+          "[\"UsersController\", :show, 10, 2, 11, 5]": 0,
+          "[\"UsersController\", :new, 14, 2, 16, 5]": 0,
+          "[\"UsersController\", :edit, 19, 2, 20, 5]": 0,
+          "[\"UsersController\", :create, 23, 2, 35, 5]": 0,
+          "[\"UsersController\", :update, 38, 2, 48, 5]": 0,
+          "[\"UsersController\", :destroy, 51, 2, 58, 5]": 0,
+          "[\"UsersController\", :set_user, 62, 4, 64, 7]": 0,
+          "[\"UsersController\", :user_params, 67, 4, 69, 7]": 0
+        }
+      },
       "/home/tax015/projects/pkp-user-management/app/helpers/application_helper.rb": {
+        "lines": [
+          0,
+          null
+        ],
+        "branches": {},
+        "methods": {}
+      },
+      "/home/tax015/projects/pkp-user-management/app/helpers/users_helper.rb": {
         "lines": [
           0,
           null
@@ -43,8 +146,16 @@
         ],
         "branches": {},
         "methods": {}
+      },
+      "/home/tax015/projects/pkp-user-management/app/models/user.rb": {
+        "lines": [
+          0,
+          null
+        ],
+        "branches": {},
+        "methods": {}
       }
     },
-    "timestamp": 1785853468
+    "timestamp": 1785854731
   }
 }
